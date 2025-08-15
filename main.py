@@ -29,3 +29,17 @@ try:
     video.download(filename=filename)
 except Exception as e:
     print(f"An error occurred: {e}")
+
+
+def get_transcript(video_id):
+    try:
+        transcript_yt = YouTubeTranscriptApi()
+        transcript_list = YouTubeTranscriptApi.list(transcript_yt, video_id)
+        # print(transcript_list)
+        return transcript_list.find_transcript(["en"]).fetch()
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+trascript = get_transcript(vid_id)
+print(trascript)
+
