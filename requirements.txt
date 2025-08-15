@@ -1,0 +1,6 @@
+langchain
+langchain_community
+pytube
+python-dotenv
+youtube_transcript_api
+langchain_ollama
