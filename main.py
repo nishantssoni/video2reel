@@ -40,6 +40,26 @@ def get_transcript(video_id):
     except Exception as e:
         print(f"An error occurred: {e}")
 
-trascript = get_transcript(vid_id)
-print(trascript)
+transcript = get_transcript(vid_id)
+print(transcript)
+# save the transcript to a txt file
+with open("transcript.txt", "w") as f:
+    f.write(str(transcript))
 
+prompt = f"""Provided to you is a transcript of a video. 
+Please identify all segments that can be extracted as 
+subtopics from the video based on the transcript.
+Make sure each segment is between 30-500 seconds in duration.
+Make sure you provide extremely accruate timestamps
+and respond only in the format provided. 
+\n Here is the transcription : \n {transcript}"""
+
+messages = [
+    {"role": "system", "content": "You are a viral content producer. You are master at reading youtube transcripts and identifying the most intriguing content. You have extraordinary skills to extract subtopic from content. Your subtopics can be repurposed as a separate video."},
+    {"role": "user", "content": prompt}
+]
+
+# # 9. Use ChatOllama model from langchain_ollama
+# llm = ChatOllama(model="deepseek-r1:latest")
+# result = llm.invoke(messages)
+# print(result.content)
