@@ -1,11 +1,3 @@
-import json
-
-
-
-
-
-
-if __name__ == "__main__":
-    with open("merged_segments.json", "r", encoding="utf-8") as f:
-        segment = json.load(f)
-    json_to_srt(segment[0], "output.srt")
+def fileSafe(text):
+    safe_text = "".join(c if c.isalnum() or c in " _-" else "_" for c in text)
+    return safe_text

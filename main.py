@@ -34,7 +34,7 @@ subtopics from the video based on the transcript.
 Make sure each segment is between 60-300 seconds in duration.
 Make sure you provide extremely accruate timestamps
 and respond only in the format provided. 
-\n Here is the transcription : \n {manager.get_transcript()}"""
+\n Here is the transcription : \n {manager.load_transcript()}"""
 
 messages = [
     {"role": "system", "content": "You are a viral content producer. You are master at reading youtube transcripts and identifying the most intriguing content. You have extraordinary skills to extract subtopic from content. Your subtopics can be repurposed as a separate video."},
@@ -53,21 +53,24 @@ class VideoTranscript(BaseModel):
     """ Represents the transcript of a video with identified viral segments"""
     segments: List[Segment] = Field(..., description="List of viral segments in the video")
 
-# structured_llm = llm.with_structured_output(VideoTranscript)
-# ai_msg = structured_llm.invoke(messages)
 
-# parsed_content = ai_msg.dict()['segments']
-
-# clipper.generate_video_clips(filename, parsed_content)
 
 if __name__ == "__main__":
+    # structured_llm = llm.with_structured_output(VideoTranscript)
+    # ai_msg = structured_llm.invoke(messages)
+
+    # parsed_content = ai_msg.dict()['segments']
+
+    # clipper.generate_video_clips(filename, parsed_content)
+
     with open("transcripts/segments.json", 'r') as f:
         parsed_content = json.load(f)
+    
     clipper.generate_video_clips(filename, parsed_content)
     manager.get_transcript()
     manager.save_transcript()
+    print(manager.load_transcript())
     manager.load_segments("transcripts/segments.json")
     manager.merge_segments_with_subtitles()
-    # manager.json_to_srt(0, "segment0.srt")
     manager.export_all_srts()
 

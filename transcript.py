@@ -2,6 +2,7 @@ import os
 import json
 from pytube import YouTube
 from youtube_transcript_api import YouTubeTranscriptApi
+from utils import fileSafe
 
 class TranscriptManager:
     def __init__(self, video_id, folder="transcripts"):
@@ -176,7 +177,7 @@ class TranscriptManager:
             # get per-segment title
             title = segment.get("yt_title", f"segment_{idx + 1}")
             # make the title safe for a file name
-            safe_title = "".join(c if c.isalnum() or c in " _-" else "_" for c in title)
+            safe_title = fileSafe(title)
             filename = os.path.join(output_folder, f"{safe_title}.srt")
 
             self.json_to_srt(idx, filename)

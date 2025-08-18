@@ -1,6 +1,7 @@
 import os
 import json
 import subprocess
+from utils import fileSafe
 
 def generate_video_clips(filename, parsed_content, output_dir="generated_clips"):
     """
@@ -30,8 +31,7 @@ def generate_video_clips(filename, parsed_content, output_dir="generated_clips")
     for i, segment in enumerate(parsed_content):
         start_time = segment['start_time']
         end_time = segment['end_time']
-        safe_title = "".join(c if c.isalnum() or c in " _-" else "_" for c in segment['yt_title'])
-        yt_title = safe_title
+        yt_title = fileSafe(segment['yt_title'])
         description = segment['description']
         duration = segment['duration']
 
