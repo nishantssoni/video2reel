@@ -163,7 +163,7 @@ cython_debug/
 
 downloaded_videos/
 codeTemplate.py
-generated_clips
+generated
 transcripts
 junk
 subtitles

@@ -7,6 +7,8 @@ import json
 
 import transcript
 import clipper
+import utils
+import track_n_merge
 
 
 load_dotenv(find_dotenv())
@@ -14,12 +16,13 @@ load_dotenv(find_dotenv())
 # youtube URL
 vid_id = os.getenv("YOUTUBE_VIDEO_ID")
 
+# create generated structure
+utils.create_generated_structure()
+
 # transcript
 manager = transcript.TranscriptManager(vid_id)
+manager.get_transcript()
 
-# create a directory to store the transcript
-os.makedirs("downloaded_videos", exist_ok=True)
-filename = f"downloaded_videos/video.mp4"
 
 llm = ChatOpenAI(model='openai/gpt-4o-mini',
                  temperature=0.7, 
@@ -56,20 +59,33 @@ class VideoTranscript(BaseModel):
 
 
 if __name__ == "__main__":
-    # structured_llm = llm.with_structured_output(VideoTranscript)
-    # ai_msg = structured_llm.invoke(messages)
+    
 
-    # parsed_content = ai_msg.dict()['segments']
+    # main video
+    filename = f"downloaded_videos/videoplayback.mp4"
+    
+    structured_llm = llm.with_structured_output(VideoTranscript)
+    ai_msg = structured_llm.invoke(messages)
 
-    # clipper.generate_video_clips(filename, parsed_content)
+    parsed_content = ai_msg.dict()['segments']
+    utils.save_segment_to_json(parsed_content)
 
-    with open("transcripts/segments.json", 'r') as f:
+    with open("generated/transcripts/segments.json", 'r') as f:
         parsed_content = json.load(f)
+
     
     clipper.generate_video_clips(filename, parsed_content)
-    manager.get_transcript()
-    manager.save_transcript()
-    manager.load_segments("transcripts/segments.json")
+    # manager.save_transcript()
+    manager.load_segments("generated/transcripts/segments.json")
     manager.merge_segments_with_subtitles()
     manager.export_all_srts()
+
+    names = utils.return_files_in_directory("generated/video")
+
+    cropper = track_n_merge.FaceTrackingCropper(smoothing_factor=0.8)
+        
+    for name in names:
+        success = cropper.process_video(f"generated/video/{name}.mp4",
+                                        f"generated/merged/{name}.mp4",
+                                        f"generated/subtitles/{name}.srt")
 

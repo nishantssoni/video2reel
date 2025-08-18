@@ -3,7 +3,7 @@ import json
 import subprocess
 from utils import fileSafe
 
-def generate_video_clips(filename, parsed_content, output_dir="generated_clips/video"):
+def generate_video_clips(filename, parsed_content, output_dir="generated/video"):
     """
     Generates video clips from a source video based on segment details.
     Saves labels and segments to files in output_dir.
@@ -17,13 +17,13 @@ def generate_video_clips(filename, parsed_content, output_dir="generated_clips/v
     os.makedirs(output_dir, exist_ok=True)
     segment_labels = []
 
-    # Save segments to JSON
-    json_path = os.path.join("transcripts/segments.json")
-    with open(json_path, 'w') as f:
-        json.dump(parsed_content, f, indent=4)
+    # # Save segments to JSON
+    # json_path = os.path.join("generated/transcripts/segments.json")
+    # with open(json_path, 'w') as f:
+    #     json.dump(parsed_content, f, indent=4)
     
     # Load segments back (optional, remove if not needed)
-    with open("transcripts/segments.json", 'r') as f:
+    with open("generated/transcripts/segments.json", 'r') as f:
         parsed_content = json.load(f)
 
 
@@ -50,6 +50,6 @@ def generate_video_clips(filename, parsed_content, output_dir="generated_clips/v
 
 if __name__ == "__main__":
     # Example usage
-    with open("transcripts/segments.json", 'r') as f:
+    with open("generated/transcripts/segments.json", 'r') as f:
         parsed_content = json.load(f)
     generate_video_clips('downloaded_videos/video.mp4', parsed_content)
