@@ -69,7 +69,6 @@ if __name__ == "__main__":
     clipper.generate_video_clips(filename, parsed_content)
     manager.get_transcript()
     manager.save_transcript()
-    print(manager.load_transcript())
     manager.load_segments("transcripts/segments.json")
     manager.merge_segments_with_subtitles()
     manager.export_all_srts()
