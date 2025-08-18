@@ -161,11 +161,33 @@ class TranscriptManager:
 
         with open(output_srt_path, "w", encoding="utf-8") as f:
             f.write("\n".join(srt_lines))
+    
+    def export_all_srts(self, output_folder="subtitles"):
+        """
+        Export an SRT file for every segment using json_to_srt().
+        File name is based on the segment's own 'yt_title'.
+        """
+        if self.segments is None:
+            raise Exception("Segments not loaded or merged")
 
-# # Example
-# manager = TranscriptManager("XeN6eGO6FVQ")
-# manager.get_transcript()
-# manager.save_transcript()
-# manager.load_segments("transcripts/segments.json")
-# manager.merge_segments_with_subtitles()
-# manager.json_to_srt(0, "segment0.srt")
+        os.makedirs(output_folder, exist_ok=True)
+
+        for idx, segment in enumerate(self.segments):
+            # get per-segment title
+            title = segment.get("yt_title", f"segment_{idx + 1}")
+            # make the title safe for a file name
+            safe_title = "".join(c if c.isalnum() or c in " _-" else "_" for c in title)
+            filename = os.path.join(output_folder, f"{safe_title}.srt")
+
+            self.json_to_srt(idx, filename)
+            print(f"Saved: {filename}")
+
+
+if __name__ == "__main__":
+    manager = TranscriptManager("XeN6eGO6FVQ")
+    manager.get_transcript()
+    manager.save_transcript()
+    manager.load_segments("transcripts/segments.json")
+    manager.merge_segments_with_subtitles()
+    # manager.json_to_srt(0, "segment0.srt")
+    manager.export_all_srts()

@@ -17,20 +17,21 @@ def generate_video_clips(filename, parsed_content, output_dir="generated_clips")
     segment_labels = []
 
     # Save segments to JSON
-    json_path = os.path.join(output_dir, "segments.json")
+    json_path = os.path.join("transcripts/segments.json")
     with open(json_path, 'w') as f:
         json.dump(parsed_content, f, indent=4)
     
-    # # Load segments back (optional, remove if not needed)
-    # with open(json_path, 'r') as f:
-    #     parsed_content = json.load(f)
+    # Load segments back (optional, remove if not needed)
+    with open("transcripts/segments.json", 'r') as f:
+        parsed_content = json.load(f)
 
 
     # Process each segment
     for i, segment in enumerate(parsed_content):
         start_time = segment['start_time']
         end_time = segment['end_time']
-        yt_title = segment['yt_title']
+        safe_title = "".join(c if c.isalnum() or c in " _-" else "_" for c in segment['yt_title'])
+        yt_title = safe_title
         description = segment['description']
         duration = segment['duration']
 
@@ -46,5 +47,7 @@ def generate_video_clips(filename, parsed_content, output_dir="generated_clips")
         for label in segment_labels:
             f.write(label + "\n")
 
-# Example usage
-# generate_video_clips('downloaded_videos/video.mp4', "generated_clips/segments.json", 'video_title',"something_temp")
+
+if __name__ == "__main__":
+    # Example usage
+    generate_video_clips('downloaded_videos/video.mp4')
