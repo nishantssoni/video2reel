@@ -231,4 +231,4 @@ success = cropper.process_video('input.mp4', 'output.mp4', show_preview=True)
 if __name__ == "__main__":
     # Example usage when running as a script:
     cropper = FaceTrackingCropper(smoothing_factor=0.8)
-    success = cropper.process_video('downloaded_videos/videoplayback (1).mp4', 'output.mp4', show_preview=True)
+    success = cropper.process_video('generated_clips/video/Cultivating a Growth Mindset_ Dopamine and Effort.mp4', 'output.mp4', show_preview=True)

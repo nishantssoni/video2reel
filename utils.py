@@ -11,3 +11,5 @@ def return_files_in_directory(directory):
         for file in files:
             lst.append(file[:-4])
     return lst
+
+print(return_files_in_directory("generated_clips/video"))
