@@ -4,3 +4,4 @@ pytube
 python-dotenv
 youtube_transcript_api
 langchain_ollama
+yt-dlp

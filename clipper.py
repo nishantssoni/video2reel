@@ -42,7 +42,8 @@ def generate_video_clips(filename, parsed_content, output_dir="generated/video")
         segment_labels.append(label)
 
     # Save segment labels
-    labels_path = os.path.join(output_dir, "segment_labels.txt")
+    # labels_path = os.path.join(output_dir, "segment_labels.txt")
+    labels_path = 'generated/lable/segment_labels.txt'
     with open(labels_path, 'w') as f:
         for label in segment_labels:
             f.write(label + "\n")

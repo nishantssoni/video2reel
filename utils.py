@@ -20,7 +20,7 @@ def create_generated_structure():
     os.makedirs(main_dir, exist_ok=True)
     
     # Create 4 subfolders
-    subfolders = ['video', 'merged', 'subtitles', 'transcripts']
+    subfolders = ['video', 'merged', 'subtitles', 'transcripts','downloaded_videos','lable']
     
     for folder in subfolders:
         os.makedirs(os.path.join(main_dir, folder), exist_ok=True)

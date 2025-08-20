@@ -9,19 +9,10 @@ import transcript
 import clipper
 import utils
 import track_n_merge
+import video_downloader
 
 
 load_dotenv(find_dotenv())
-
-# youtube URL
-vid_id = os.getenv("YOUTUBE_VIDEO_ID")
-
-# create generated structure
-utils.create_generated_structure()
-
-# transcript
-manager = transcript.TranscriptManager(vid_id)
-manager.get_transcript()
 
 
 llm = ChatOpenAI(model='openai/gpt-4o-mini',
@@ -31,18 +22,6 @@ llm = ChatOpenAI(model='openai/gpt-4o-mini',
                  max_retries=2
                  )
 
-prompt = f"""Provided to you is a transcript of a video. 
-Please identify all segments that can be extracted as 
-subtopics from the video based on the transcript.
-Make sure each segment is between 60-300 seconds in duration.
-Make sure you provide extremely accruate timestamps
-and respond only in the format provided. 
-\n Here is the transcription : \n {manager.load_transcript()}"""
-
-messages = [
-    {"role": "system", "content": "You are a viral content producer. You are master at reading youtube transcripts and identifying the most intriguing content. You have extraordinary skills to extract subtopic from content. Your subtopics can be repurposed as a separate video."},
-    {"role": "user", "content": prompt}
-]
 
 class Segment(BaseModel):
     """ Represents a segment of a video"""
@@ -59,10 +38,43 @@ class VideoTranscript(BaseModel):
 
 
 if __name__ == "__main__":
-    
 
-    # main video
-    filename = f"downloaded_videos/videoplayback.mp4"
+    # # create generated structure
+    utils.create_generated_structure()
+    
+    # vid_id = 'XeN6eGO6FVQ'
+    vid_id = input("Enter Video ID : ")
+
+    isVideoDownloaded = video_downloader.download_youtube_video(vid_id,
+                                                      output_path="generated/downloaded_videos",
+                                                      output_filename="videoplayback.mp4")
+
+    if not isVideoDownloaded:
+        print("Video Download Failed")
+        exit()
+    
+    # # main video
+    filename = "generated/downloaded_videos/videoplayback.mp4"
+
+    # # download transcript
+    # # transcript
+    
+    manager = transcript.TranscriptManager(vid_id)
+    manager.get_transcript()
+
+    # prompts and message
+    prompt = f"""Provided to you is a transcript of a video. 
+    Please identify all segments that can be extracted as 
+    subtopics from the video based on the transcript.
+    Make sure each segment is between 60-300 seconds in duration.
+    Make sure you provide extremely accruate timestamps
+    and respond only in the format provided. 
+    \n Here is the transcription : \n {manager.load_transcript()}"""
+
+    messages = [
+        {"role": "system", "content": "You are a viral content producer. You are master at reading youtube transcripts and identifying the most intriguing content. You have extraordinary skills to extract subtopic from content. Your subtopics can be repurposed as a separate video."},
+        {"role": "user", "content": prompt}
+    ]
     
     structured_llm = llm.with_structured_output(VideoTranscript)
     ai_msg = structured_llm.invoke(messages)
@@ -70,9 +82,9 @@ if __name__ == "__main__":
     parsed_content = ai_msg.dict()['segments']
     utils.save_segment_to_json(parsed_content)
 
-    with open("generated/transcripts/segments.json", 'r') as f:
-        parsed_content = json.load(f)
-
+    # with open("generated/transcripts/segments.json", 'r') as f:
+    #     parsed_content = json.load(f)
+    
     
     clipper.generate_video_clips(filename, parsed_content)
     # manager.save_transcript()
