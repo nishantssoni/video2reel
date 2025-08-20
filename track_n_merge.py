@@ -144,7 +144,7 @@ class FaceTrackingCropper:
             result = subprocess.run(ffmpeg_cmd, capture_output=True, text=True, check=True)
             print("✔ Audio merged successfully")
         except subprocess.CalledProcessError as e:
-            print(f"❌ FFmpeg error: {e}")
+            print(f"FFmpeg error: {e}")
             print(f"stderr: {e.stderr}")
             return False
         finally:
@@ -166,6 +166,6 @@ if __name__ == "__main__":
     success = cropper.process_video(input_video, output_video, subtitle_path)
     
     if success:
-        print("🎉 Video cropping completed successfully!")
+        print("Video cropping completed successfully!")
     else:
-        print("❌ Video processing failed!")
+        print("Video processing failed!")

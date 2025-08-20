@@ -59,9 +59,12 @@ if __name__ == "__main__":
     # # download transcript
     # # transcript
     
+    print("Downloading transcript...")
     manager = transcript.TranscriptManager(vid_id)
     manager.get_transcript()
 
+
+    print("Generating segments...")
     # prompts and message
     prompt = f"""Provided to you is a transcript of a video. 
     Please identify all segments that can be extracted as 
@@ -76,6 +79,7 @@ if __name__ == "__main__":
         {"role": "user", "content": prompt}
     ]
     
+    print("invoke LLM...")
     structured_llm = llm.with_structured_output(VideoTranscript)
     ai_msg = structured_llm.invoke(messages)
 
