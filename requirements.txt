@@ -2,7 +2,7 @@ langchain
 langchain_community
 python-dotenv
 youtube_transcript_api
-langchain_ollama
+langchain_openai
 yt-dlp
 mediapipe
 opencv-python
