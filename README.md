@@ -1,6 +1,7 @@
 # YouTube Video Segmentation & Processing Tool (Video2reel)
 ![Diagram](samples/logo_.png)
-An automated tool that downloads YouTube videos, analyzes their transcripts using AI, extracts viral segments, and creates face-tracked cropped videos with embedded subtitles.
+
+### An automated tool that downloads YouTube videos, analyzes their transcripts using AI, extracts viral segments, and creates face-tracked cropped videos with embedded subtitles.
 
 ## Features
 
@@ -226,5 +227,19 @@ For issues and questions:
 3. Create a new issue with detailed information about your problem
 
 ---
+## 🤝 Contribution
+Contributions are welcome! Feel free to open issues or submit pull requests for suggestions, improvements, or bug fixes.
 
+---
+
+## 📜 License
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
+
+---
+
+## 📬 Contact
+For any questions or feedback, please contact [iamnishantsoni4@gmail.com](mailto:iamnishantsoni4@gmail.com).
+### hit me on <a href="https://twitter.com/nishantssoni">Twitter</a>
+
+---
 **Note**: This tool is for educational and personal use. Ensure you comply with YouTube's Terms of Service and respect copyright laws when downloading and processing videos.
