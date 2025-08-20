@@ -1,6 +1,5 @@
 import os
 import json
-from pytube import YouTube
 from youtube_transcript_api import YouTubeTranscriptApi
 from utils import fileSafe
 
