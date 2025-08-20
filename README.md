@@ -1,5 +1,5 @@
 # YouTube Video Segmentation & Processing Tool (Video2reel)
-
+![Diagram](samples/logo_.png)
 An automated tool that downloads YouTube videos, analyzes their transcripts using AI, extracts viral segments, and creates face-tracked cropped videos with embedded subtitles.
 
 ## Features
